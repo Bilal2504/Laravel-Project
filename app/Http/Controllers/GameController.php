@@ -35,9 +35,17 @@ class GameController extends Controller
             'description' => 'required|string',
             'genre_id' => 'required|exists:genres,id',
             'price' => 'required|numeric|min:0',
+            'image' => 'nullable|image',
         ]);
 
-        Game::create($request->all());
+        $game = new Game($request->all());
+
+        if ($request->hasFile('image')) {
+            $path = $request->file('image')->store('images', 'public');
+            $game->image = $path;
+        }
+
+        $game->save();
 
         return redirect()->route('games.index')
             ->with('success', 'Jeu créé avec succès.');
@@ -61,9 +69,17 @@ class GameController extends Controller
             'description' => 'required|string',
             'genre_id' => 'required|exists:genres,id',
             'price' => 'required|numeric|min:0',
+            'image' => 'nullable|image',
         ]);
 
-        $game->update($request->all());
+        $game->fill($request->all());
+
+        if ($request->hasFile('image')) {
+            $path = $request->file('image')->store('images', 'public');
+            $game->image = $path;
+        }
+
+        $game->save();
 
         return redirect()->route('games.index')
             ->with('success', 'Jeu mis à jour avec succès.');
@@ -76,4 +92,10 @@ class GameController extends Controller
         return redirect()->route('games.index')
             ->with('success', 'Jeu supprimé avec succès.');
     }
+
+    public function delete(Game $game)
+    {
+        return view('games.delete', compact('game'));
+    }
 }
+
