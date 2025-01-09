@@ -25,6 +25,8 @@ Route::middleware('auth')->group(function () {
     Route::get('/games/{game}/edit', [GameController::class, 'edit'])->name('games.edit');
     Route::put('/games/{game}', [GameController::class, 'update'])->name('games.update');
     Route::delete('/games/{game}', [GameController::class, 'destroy'])->name('games.destroy');
+    Route::get('/games/{game}/delete', [GameController::class, 'delete'])->name('games.delete'); 
+    Route::post('/games/deleteAll', [GameController::class, 'deleteAll'])->name('games.deleteAll');
 });
 
 require __DIR__.'/auth.php';
