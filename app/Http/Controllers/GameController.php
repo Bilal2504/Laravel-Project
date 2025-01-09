@@ -1,13 +1,17 @@
-<?php
+<?php 
 
 namespace App\Http\Controllers;
 
 use App\Models\Game;
 use App\Models\Genre;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 
 class GameController extends Controller
 {
+    use AuthorizesRequests;
+
     public function index(Request $request)
     {
         $query = Game::query();
@@ -24,12 +28,16 @@ class GameController extends Controller
 
     public function create()
     {
+        $this->authorize('create games');
+
         $genres = Genre::all();
         return view('games.create', compact('genres'));
     }
 
     public function store(Request $request)
     {
+        $this->authorize('create games');
+
         $request->validate([
             'title' => 'required|string|max:255',
             'description' => 'required|string',
@@ -58,12 +66,16 @@ class GameController extends Controller
 
     public function edit(Game $game)
     {
+        $this->authorize('edit games');
+
         $genres = Genre::all();
         return view('games.edit', compact('game', 'genres'));
     }
 
     public function update(Request $request, Game $game)
     {
+        $this->authorize('edit games');
+
         $request->validate([
             'title' => 'required|string|max:255',
             'description' => 'required|string',
@@ -87,6 +99,8 @@ class GameController extends Controller
 
     public function destroy(Game $game)
     {
+        $this->authorize('delete games');
+
         $game->delete();
 
         return redirect()->route('games.index')
@@ -98,4 +112,3 @@ class GameController extends Controller
         return view('games.delete', compact('game'));
     }
 }
-
