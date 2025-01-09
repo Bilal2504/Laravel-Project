@@ -16,11 +16,13 @@
                         {{ __('Dashboard') }}
                     </x-nav-link>
                     <x-nav-link :href="route('games.index')" :active="request()->routeIs('games.index')">
-                        {{ __('Games') }}
+                        {{ __('Jeux') }}
                     </x-nav-link>
-                    <x-nav-link :href="route('games.create')" :active="request()->routeIs('games.create')">
-                        {{ __('Create Games') }}
-                    </x-nav-link>
+                    @role('admin')
+                        <x-nav-link :href="route('games.create')" :active="request()->routeIs('games.create')">
+                            {{ __('Crée un jeu') }}
+                        </x-nav-link>
+                    @endrole
                 </div>
             </div>
 
@@ -57,7 +59,7 @@
                             <x-dropdown-link :href="route('logout')"
                                     onclick="event.preventDefault();
                                                 this.closest('form').submit();">
-                                {{ __('Log Out') }}
+                                {{ __('Déconnexion') }}
                             </x-dropdown-link>
                         </form>
                     </x-slot>
@@ -83,11 +85,13 @@
                 {{ __('Dashboard') }}
             </x-responsive-nav-link>
             <x-responsive-nav-link :href="route('games.index')" :active="request()->routeIs('games.index')">
-                {{ __('Games') }}
+                {{ __('Jeux') }}
             </x-responsive-nav-link>
-            <x-responsive-nav-link :href="route('games.create')" :active="request()->routeIs('games.create')">
-                {{ __('Create Games') }}
-            </x-responsive-nav-link>
+            @role('admin')
+                <x-responsive-nav-link :href="route('games.create')" :active="request()->routeIs('games.create')">
+                    {{ __('Crée un jeu') }}
+                </x-responsive-nav-link>
+            @endrole
         </div>
 
         <!-- Responsive Settings Options -->
